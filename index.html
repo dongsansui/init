@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="css/reset.css">
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>header</h1>
+    </header>
+    <section>
+        <ul id="uId">
+
+        </ul>
+    </section>
+    <footer>
+        <h3>footer</h3>
+    </footer>
+</body>
+<script type="text/javascript">
+    var uId = document.getElementById("uId");
+    function Ajax(){
+        var xml = null;
+        if(window.XMLHttpRequest){
+            xml = new window.XMLHttpRequest();
+        }else{
+            xml = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xml.open("get","http://localhost:8080/mock/server/index.html?news");
+        xml.send(null);
+        xml.onreadystatechange = function () {
+            if(xml.readyState == 4 && xml.status == 200){
+               var result= JSON.parse(xml.responseText);
+                var data = JSON.parse(result.data);
+                var str = "";
+                for(var i=0;i<data.length;i++){
+                    str+="<li><p>"+data[i].title+"</p><span>"+data[i].content+"</span></li>"
+                }
+                uId.innerHTML = str
+            }
+        }
+    }
+    Ajax()
+</script>
+</html>
